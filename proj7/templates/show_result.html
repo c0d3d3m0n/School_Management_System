@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ exam_type }} Result Report Card</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .report-card {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+        .table th, .table td {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <button class="btn btn-primary" onclick="window.print()" style="position: fixed; top: 10px; right: 10px;">Print</button>
+    <div class="container">
+        <div class="text-end">
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <div class="report-card">
+        <h4 class="text-center mb-4">{{ exam_type }} Report Card (Academic Session: 2025-26)</h4>
+
+        {% if student %}
+        <div class="mb-3">
+            <p><strong>Student Name:</strong> {{ student.name }}</p>
+            <p><strong>Class:</strong> {{ student.class_name }}</p>
+            <p><strong>Roll No:</strong> {{ student.roll_number }}</p>
+            <p><strong>Father's Name:</strong> {{ student.father_name }}</p>
+            <p><strong>Mother's Name:</strong> {{ student.mother_name }}</p>
+        </div>
+
+        <form method="get" class="mb-4">
+            <label for="examType" class="form-label">Select Exam:</label>
+            <select name="exam_type" class="form-select w-auto d-inline-block" onchange="this.form.submit()">
+                <option value="PT-1" {% if exam_type == 'PT-1' %}selected{% endif %}>PT-1</option>
+                <option value="PT-2" {% if exam_type == 'PT-2' %}selected{% endif %}>PT-2</option>
+                <option value="SA-1" {% if exam_type == 'SA-1' %}selected{% endif %}>SA-1</option>
+                <option value="TERM-1" {% if exam_type == 'TERM-1' %}selected{% endif %}>TERM-1</option>
+            </select>
+        </form>
+
+        <table class="table table-bordered">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Subject</th>
+                    <th>FM</th>
+                    <th>PM</th>
+                    <th>OM</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td>{{ result.subject }}</td>
+                    <td>{{ result.full_marks }}</td>
+                    <td>{{ result.passing_marks }}</td>
+                    <td>{{ result.marks }}</td>
+                    <td>{{ result.grade }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot class="table-light">
+                <tr>
+                    <th>Total</th>
+                    <th>{{ total_full }}</th>
+                    <th></th>
+                    <th>{{ marks_obtained }}</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <p><strong>Percentage:</strong> {{ percentage }}%</p>
+        <p><strong>Division:</strong> {{ division }}</p>
+        {% else %}
+        <p>No student found.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

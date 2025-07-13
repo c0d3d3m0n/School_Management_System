@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TERM-1 Result Sheet</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+
+        .result-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="result-card">
+            <h2 class="text-center mb-4">Half-Yearly Result Sheet (TERM-1)</h2>
+
+            <div class="mb-4">
+                <h5>Student Details</h5>
+                <p><strong>Name:</strong> {{ student.name }}</p>
+                <p><strong>Roll No:</strong> {{ student.roll_number }}</p>
+                <p><strong>Class:</strong> {{ student.class_name }}</p>
+            </div>
+
+            <h5>Subject-wise Marks</h5>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Subject</th>
+                        <th>Periodic Test (10)</th>
+                        <th>Half Yearly Exam (80)</th>
+                        <th>Attendance (5)</th>
+                        <th>Notebook (5)</th>
+                        <th>Marks Obtained (100)</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in term1_results %}
+                    <tr>
+                        <td>{{ result.subject }}</td>
+                        <td>{{ result.pt_avg_scaled|floatformat:2|default:"0.00" }}</td>
+                        <td>{{ result.sa1_marks|floatformat:2|default:"0.00" }}</td>
+                        <td>{{ result.attendance|floatformat:2|default:"0.00" }}</td>
+                        <td>{{ result.notebook|floatformat:2|default:"0.00" }}</td>
+                        <td>{{ result.subject_total|floatformat:2|default:"0.00" }}</td>
+                        <td>{{ result.grade|default:"-" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No subject marks available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="text-end mt-4">
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+            <hr class="my-4">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h6>Total Marks: <span class="fw-normal">{{ total_full|default:"0" }}</span></h6>
+                    <h6>Marks Obtained: <span class="fw-normal">{{ marks_obtained|floatformat:2|default:"0.00" }}</span></h6>
+                    <h6>Percentage: <span class="fw-normal">{{ percentage|floatformat:2|default:"0.00" }}%</span></h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
