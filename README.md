@@ -98,10 +98,22 @@ python manage.py showmigrations
 
 ## Admin Interface
 
-Access the Django admin panel at `http://127.0.0.1:8000/admin` to:
+### Create Superuser
+Before accessing the admin panel, you need to create a superuser account:
+```bash
+python manage.py createsuperuser
+```
+You will be prompted to enter:
+- **Username** - Your admin username
+- **Email** - Your email address (optional)
+- **Password** - Secure password (entered twice for confirmation)
+
+### Access Admin Panel
+After creating the superuser, access the Django admin panel at `http://127.0.0.1:8000/admin` to:
 - Manage database records
 - Add or remove data without direct database access
 - Monitor registered models
+- Manage user accounts and permissions
 
 ## API Endpoints
 
