@@ -44,6 +44,35 @@ cd project_name
 python -m django startapp app_name
 ```
 
+### 4. Register Apps in Settings
+After creating your app, you must register it in `settings.py`:
+
+```python
+# In project_name/settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    
+    # Your custom app
+    'app_name',
+    
+    # For REST API functionality
+    'rest_framework',
+    
+    # Other third-party apps (if used)
+    'crispy_forms',
+]
+```
+
+**Important:** 
+- Always add your custom app to `INSTALLED_APPS`
+- Add `'rest_framework'` if you're using Django REST Framework for APIs
+- Add any other third-party apps you install
+
 ## Project Structure
 
 ### Root Directory
